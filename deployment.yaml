@@ -39,43 +39,5 @@ spec:
       targetPort: 27017
   selector:
     name: mongo
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: adrian-app
-  namespace: adrian-app
-spec:
-  selector:
-    matchLabels:
-      app: adrian-app
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: adrian-app
-    spec:
-      containers:
-      - image: leexha/node_demo:26
-        env:
-        - name: MONGODB_URL
-          value: "mongodb://mongo.adrian-app.svc.cluster.local:27017/user"
-        name: adrian-app
-        ports:
-        - containerPort: 4000
----
 
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: adrian-app
-  name: adrian-app
-  namespace: adrian-app
-spec:
-  type: LoadBalancer  # use ClusterIP as type here
-  ports:
-    - port: 4000
-  selector:
-    app: adrian-app
 
